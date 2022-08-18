@@ -15,6 +15,8 @@ FLAGS    := -Wall -Wextra -Werror
 ################################################################################
 
 SRCS        :=      src/philosophers.c \
+					src/init.c \
+					src/utils.c
 
 INC			:=		src/philosophers.h
                           
