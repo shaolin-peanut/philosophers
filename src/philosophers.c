@@ -6,7 +6,7 @@
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 12:39:39 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/10 17:45:10 by sbars            ###   ########.fr       */
+/*   Updated: 2022/08/18 15:45:17 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,17 @@ int	philosophers(char	**argv)
 
 int	main(int argc, char	**argv)
 {
-	(void) argc;
+	t_data	*pkg;
 
-	/*if (argc < 5)
+	pkg = NULL;
+	if (argc < 5)
 		errormsg("enter more arguments", pkg);
 	else if (argc > 6)
-		errormsg("too much arguments", pkg);
-	else if (argc == 5)*/
-	return (philosophers(argv));
+		errormsg("too many args", pkg);
+	else
+		init_pkg(pkg);
+	fill_pkg(pkg, argv);
+	if (argc == 6)
+		pkg->eatXtimes = ft_atoi(argv[argc]);
+	return (0);
 }

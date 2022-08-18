@@ -18,7 +18,7 @@ typedef	struct s_data
 	int	t2eat;
 	int	t2sleep;
 	int	eatXtimes;
-	t_philo	*table;
+	t_philo	*phil;
 }	t_data;
 
 #endif
