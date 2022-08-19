@@ -25,6 +25,8 @@ typedef	struct s_data
 }	t_data;
 
 // philosophers.c
+// parsing.c
+void	parsing(int argc, char	**argv);
 // init.c
 t_data	*init_pkg(t_data *pkg);
 void	fill_pkg(t_data *pkg, char **argv);
