@@ -6,14 +6,14 @@
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:37:20 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/19 16:46:06 by sbars            ###   ########.fr       */
+/*   Updated: 2022/08/22 15:51:49 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "philo.h"
 
 t_data	*init_pkg(t_data	*pkg)
 {
-	pkg = (t_data	*) malloc(sizeof(t_data *));
+	pkg = (t_data	*) malloc(sizeof(t_data));
 	if (!pkg)
 		errormsg("malloc error\n", pkg);
 	pkg->pc = 0;
@@ -21,14 +21,34 @@ t_data	*init_pkg(t_data	*pkg)
 	pkg->t2eat = 0;
 	pkg->t2sleep = 0;
 	pkg->eatXtimes = 0;
-	pkg->phil = NULL;
+	//pkg->philos = 0;
 	return (pkg);
 }
 
-void	fill_pkg(t_data *pkg, char	**argv)
+t_philo	**init_philos(t_philo	**philos, int nbr, t_data	*pkg)
 {
-	pkg->pc = ft_atoi(argv[1]);
-	pkg->t2die = ft_atoi(argv[2]);
-	pkg->t2eat = ft_atoi(argv[3]);
-	pkg->t2sleep = ft_atoi(argv[4]);
+	int	i;
+
+	i = -1;
+	philos = (t_philo **) malloc (sizeof(t_philo *) * nbr + 1);
+	if (!philos)
+		errormsg("Philos malloc error!\n", pkg);
+	while (++i < nbr)
+	{
+		philos[i] = (t_philo	*) malloc(sizeof(t_philo));
+		philos[i]->id = (pthread_t) malloc(sizeof(pthread_t));
+		if (!philos[i])
+			errormsg("indivvidual philo malloc error", pkg);
+	}
+	i = -1;
+	while (++i < nbr)
+	{
+		pthread_create(&philos[i]->id, 0, (void *) ft_loop, pkg);
+		pthread_detach(philos[i]->id);
+		philos[i]->number = 0;
+		philos[i]->lfork = 0;
+		philos[i]->rfork = 0;
+	}
+	return (philos);
 }
+

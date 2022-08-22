@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/10 12:39:39 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/22 13:30:36 by sbars            ###   ########.fr       */
+/*   Created: 2022/08/22 13:27:40 by sbars             #+#    #+#             */
+/*   Updated: 2022/08/22 15:50:29 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "philo.h"
 
-int	main(int argc, char	**argv)
+void	*ft_loop(void	*pkg)
 {
-	parsing(argc, argv);
-	return (0);
+	write(1, "hello\n", 6);
+	(void) pkg;
+	return (NULL);
 }
