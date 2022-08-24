@@ -6,14 +6,12 @@
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:46:31 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/22 15:54:32 by sbars            ###   ########.fr       */
+/*   Updated: 2022/08/24 16:40:10 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
-// remove after testing!!
-#include <stdio.h>
 
-void	parsing(int	c, char	**av)
+t_data	*parsing(int	c, char	**av)
 {
 	t_data	*pkg;
 
@@ -24,14 +22,13 @@ void	parsing(int	c, char	**av)
 	fill_pkg(pkg, av);
 	if (c == 6)
 		pkg->eatXtimes = ft_atoi(av[c - 1]);
-	printf("%d\n", pkg->pc);
-	printf("%d\n", pkg->t2die);
-	printf("%d\n", pkg->t2eat);
-	printf("%d\n", pkg->t2sleep);
-	printf("%d\n", pkg->eatXtimes);
-	int	i = -1;
-	while (++i < pkg->pc)
-		printf("philos[%d]: %d\n", i, pkg->philos[i]->number);
+	// TESTING
+//	printf("%d\n", pkg->pc);
+//	printf("%d\n", pkg->t2die);
+//	printf("%d\n", pkg->t2eat);
+//	printf("%d\n", pkg->t2sleep);
+//	printf("%d\n", pkg->eatXtimes);
+	return (pkg);
 }
 
 
@@ -47,20 +44,35 @@ void	fill_pkg(t_data *pkg, char	**argv)
 	pkg->philos = init_philos(philos, pkg->pc, pkg);
 	if (!pkg->philos)
 		errormsg("philos mem allocation error\n", pkg);
-	create_philos(pkg->philos, argv, pkg);
 }
 
-void	create_philos(t_philo	**philos, char	**argv, t_data	*pkg)
+int	create_fork(pthread_mutex_t	*lock)
+{
+	int	ret;
+
+	ret = 0;
+	ret = pthread_mutex_init(lock, NULL);
+	return (ret);
+}
+
+void	create_philos(char	**argv, t_data	*pkg)
 {
 	int i;
+	t_philo	**philos;
 
 	i = -1;
 	(void) argv;
-	(void) pkg;
+	philos = pkg->philos;
 	while (++i < pkg->pc && philos[i] != 0)
 	{
-	//	pthread_create(&philos[i]->id, 0, (void *) ft_loop, pkg);
-		philos[i]->number = i;
-		// create_fork(philos[i]->lfork)
+		philos[i]->number = i + 1;
+		if (i > 0)
+			philos[i]->rfork = philos[i - 1]->lfork;
+		if (create_fork(&philos[i]->lfork) != 0)
+				errormsg("fork creation error\n", pkg);
+		pthread_create(&philos[i]->id, 0, (void *) ft_loop, philos[i]);
+		pthread_detach(philos[i]->id);
+		usleep(1000);
 	}
+	i = -1;
 }

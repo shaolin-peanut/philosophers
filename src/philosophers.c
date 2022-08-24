@@ -6,7 +6,7 @@
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 12:39:39 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/22 13:30:36 by sbars            ###   ########.fr       */
+/*   Updated: 2022/08/24 16:40:18 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int	main(int argc, char	**argv)
 {
-	parsing(argc, argv);
+	t_data	*pkg;
+
+	pkg = NULL;
+	pkg = parsing(argc, argv);
+	create_philos(argv, pkg);
+	free_all(pkg);
 	return (0);
 }

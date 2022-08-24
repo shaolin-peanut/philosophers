@@ -6,13 +6,32 @@
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:37:27 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/22 11:59:19 by sbars            ###   ########.fr       */
+/*   Updated: 2022/08/24 16:41:05 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
+void	free_philos(t_data	*pkg)
+{
+	int	i;
+
+	i = -1;
+	while (pkg->philos[++i] && i < pkg->pc)
+	{
+		pthread_exit(pkg->philos[i]->id);
+		free(pkg->philos[i]);
+	}
+}
+
 void	free_all(t_data	*pkg)
 {
+	int	i = -1;
+	while (++i < pkg->pc)
+	{
+		printf("philos[%d]->nbr: %d\n", i, pkg->philos[i]->number);
+	}
+	if (pkg->philos)
+		free_philos(pkg);
 	if (pkg)
 		free(pkg);
 }

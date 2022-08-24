@@ -6,7 +6,7 @@
 #    By: tmatis <tmatis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2022/08/22 15:41:06 by sbars            ###   ########.fr        #
+#    Updated: 2022/08/24 12:36:33 by sbars            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 NAME	= philo
 CC 		= gcc
-CFLAGS	= -Wall -Wextra -Werror -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror
 DFLAGS	= -MMD -MF $(@:.o=.d)
 AUTHOR	= sbars
 DATE	= 22/08/2022
@@ -36,6 +36,7 @@ INCLUDE_PATH	= ./src
 SRCS			= init.c \
 				  parsing.c \
 				  utils.c \
+				  utils2.c \
 				  loop.c
 
 MAIN			= philosophers.c
