@@ -6,7 +6,7 @@
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:37:20 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/23 14:57:28 by sbars            ###   ########.fr       */
+/*   Updated: 2022/08/26 16:03:27 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -44,6 +44,7 @@ t_philo	**init_philos(t_philo	**philos, int nbr, t_data	*pkg)
 	{
 		philos[i]->id = 0;
 		philos[i]->number = 0;
+		philos[i]->pkg = 0;
 	}
 	return (philos);
 }

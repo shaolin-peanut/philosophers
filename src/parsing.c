@@ -6,7 +6,7 @@
 /*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:46:31 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/24 16:40:10 by sbars            ###   ########.fr       */
+/*   Updated: 2022/08/26 16:17:20 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -35,12 +35,17 @@ t_data	*parsing(int	c, char	**av)
 void	fill_pkg(t_data *pkg, char	**argv)
 {
 	t_philo	**philos;
+	int		ret;
 
 	philos = NULL;
+	ret = 0;
 	pkg->pc = ft_atoi(argv[1]);
 	pkg->t2die = ft_atoi(argv[2]);
 	pkg->t2eat = ft_atoi(argv[3]);
 	pkg->t2sleep = ft_atoi(argv[4]);
+	ret = pthread_mutex_init(&pkg->print_lock, NULL);
+	if (ret != 0)
+		errormsg("mutex init error", pkg);
 	pkg->philos = init_philos(philos, pkg->pc, pkg);
 	if (!pkg->philos)
 		errormsg("philos mem allocation error\n", pkg);
@@ -66,13 +71,14 @@ void	create_philos(char	**argv, t_data	*pkg)
 	while (++i < pkg->pc && philos[i] != 0)
 	{
 		philos[i]->number = i + 1;
+		philos[i]->pkg = pkg;
 		if (i > 0)
 			philos[i]->rfork = philos[i - 1]->lfork;
 		if (create_fork(&philos[i]->lfork) != 0)
 				errormsg("fork creation error\n", pkg);
 		pthread_create(&philos[i]->id, 0, (void *) ft_loop, philos[i]);
 		pthread_detach(philos[i]->id);
-		usleep(1000);
+		//usleep(200);
 	}
 	i = -1;
 }
