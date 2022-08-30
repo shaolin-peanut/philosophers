@@ -35,8 +35,8 @@ void	eat(t_philo	*philo, t_data *pkg)
 	ft_putstr("Philosopher ");
 	ft_putnbr_fd(philo->number, 1);
 	ft_putstr(" is eating\n");
-	usleep(pkg->t2eat);
 	pthread_mutex_unlock(&pkg->print_lock);
+	usleep(pkg->t2eat);
 }
 
 void	go_sleep(t_philo *philo, t_data *pkg)
@@ -46,14 +46,14 @@ void	go_sleep(t_philo *philo, t_data *pkg)
 	ft_putstr("Philosopher ");
 	ft_putnbr_fd(philo->number, 1);
 	ft_putstr(" is sleeping\n");
-	usleep(pkg->t2sleep);
 	pthread_mutex_unlock(&pkg->print_lock);
+	usleep(pkg->t2sleep);
 }
 
 void	think(t_philo *philo, t_data *pkg)
 {
-	pthread_mutex_lock(&pkg->print_lock);
 	(void) pkg;
+	pthread_mutex_lock(&pkg->print_lock);
 	print_current_time();
 	ft_putstr("Philosopher ");
 	ft_putnbr_fd(philo->number, 1);
@@ -63,12 +63,10 @@ void	think(t_philo *philo, t_data *pkg)
 
 void	pick_fork_up(pthread_mutex_t *m)
 {
-	while (pthread_mutex_lock(m) != 0 && death_of_a_philosopher())
-		;
+	pthread_mutex_lock(m);
 }
 
 void	put_fork_down(pthread_mutex_t *m)
 {
-	while (pthread_mutex_unlock(m) != 0 && death_of_a_philosopher())
-		;
+	pthread_mutex_unlock(m);
 }

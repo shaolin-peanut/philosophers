@@ -17,7 +17,10 @@ t_data	*parsing(int	c, char	**av)
 
 	pkg = NULL;
 	if (c < 5 || c > 6)
-		errormsg("Too little or too many args", pkg);
+	{
+		ft_putstr("Too little or too many args");
+		exit(EXIT_FAILURE);
+	}
 	pkg = init_pkg(pkg);
 	fill_pkg(pkg, av);
 	if (c == 6)
