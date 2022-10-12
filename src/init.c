@@ -48,4 +48,3 @@ t_philo	**init_philos(t_philo	**philos, int nbr, t_data	*pkg)
 	}
 	return (philos);
 }
-
