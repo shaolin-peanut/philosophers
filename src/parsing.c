@@ -66,22 +66,30 @@ int	create_fork(pthread_mutex_t	*lock)
 void	create_philos(char	**argv, t_data	*pkg)
 {
 	int i;
-	t_philo	**philos;
 
 	i = -1;
 	(void) argv;
-	philos = pkg->philos;
-	while (++i < pkg->pc && philos[i] != 0)
+	// init philos number, pkg and left fork
+	while (++i < pkg->pc && pkg->philos[i] != 0)
 	{
-		philos[i]->number = i + 1;
-		philos[i]->pkg = pkg;
-		if (i > 0)
-			philos[i]->rfork = philos[i - 1]->lfork;
-		if (create_fork(&philos[i]->lfork) != 0)
+		pkg->philos[i]->number = i + 1;
+		pkg->philos[i]->pkg = pkg;
+		// What about the left fork of the first philosopher?
+		if (create_fork(&pkg->philos[i]->lfork) != 0)
 				errormsg("fork creation error\n", pkg);
-		pthread_create(&philos[i]->id, 0, (void *) ft_loop, philos[i]);
-		pthread_detach(philos[i]->id);
-		//usleep(200);
+
 	}
 	i = -1;
+	// init philos right fork, then create and detach	
+	while (++i < pkg->pc && pkg->philos[i] != 0)
+	{
+		if (i > 0)
+			pkg->philos[i]->rfork = &pkg->philos[i - 1]->lfork;
+		else
+			pkg->philos[0]->rfork = &pkg->philos[pkg->pc - 1]->lfork;
+		if (i % 2 == 0)
+			ft_usleep(pkg->t2eat / 100);
+		pthread_create(&pkg->philos[i]->id, 0, (void *) ft_loop, pkg->philos[i]);
+		pthread_detach(pkg->philos[i]->id);
+	}
 }

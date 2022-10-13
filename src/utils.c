@@ -54,11 +54,11 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-int	ft_atoi(const char *str)
+long int	ft_atoi(const char *str)
 {
-	int			result;
+	long int			result;
 	int			i;
-	int			sign;
+	long int			sign;
 
 	result = 0;
 	sign = 1;

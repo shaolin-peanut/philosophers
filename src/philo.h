@@ -16,17 +16,17 @@ struct s_philo
 	pthread_t		id;
 	int				number;
 	pthread_mutex_t	lfork;
-	pthread_mutex_t	rfork;
+	pthread_mutex_t	*rfork;
 	struct s_data	*pkg;
 };
 
 typedef	struct s_data	
 {
 	int	pc;
-	int	t2die;
-	int	t2eat;
-	int	t2sleep;
-	int	eatXtimes;
+	long int	t2die;
+	long int	t2eat;
+	long int	t2sleep;
+	long int	eatXtimes;
 	pthread_mutex_t print_lock;
 	t_philo	**philos;
 }	t_data;
@@ -50,15 +50,17 @@ void	fill_pkg(t_data *pkg, char **argv);
 // utils.c
 void	errormsg(char	*msg, t_data	*pkg);
 void	free_all(t_data	*pkg);
-int		ft_atoi(const char *str);
+long int ft_atoi(const char *str);
 int		ft_isdigit(int c);
 // utils2.c
-int		return_time(void);
+long int	return_time(void);
 int		death_of_a_philosopher(void);
 void	ft_putstr(char	*str);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
 // utils3.c
 void	print_current_time(void);
+void	ft_usleep(long int time_in_ms);
+void	ft_putnbr_long(long int n);
 
 #endif

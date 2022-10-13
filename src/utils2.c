@@ -11,17 +11,19 @@
 /* ************************************************************************** */
 #include "philo.h"
 
-int	return_time(void)
+long int	return_time(void)
 {
-	int	ret;
-	struct timeval tp;
+	long int		ret;
+	struct timeval	tp;
 
 	ret = 0;
-
-	ret = gettimeofday(&tp, NULL);
-	if (ret == -1)
+	if (gettimeofday(&tp, NULL) == -1)
+	{
 		write(1, "gettimeofday failure\n", 8);
-	return (tp.tv_usec / 1000 + tp.tv_sec * 1000);
+		exit(EXIT_FAILURE);
+	}
+	ret = (tp.tv_usec / 1000) + (tp.tv_sec * 1000);
+	return (ret);
 }
 
 int	death_of_a_philosopher(void)
