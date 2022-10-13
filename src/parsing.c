@@ -88,7 +88,7 @@ void	create_philos(char	**argv, t_data	*pkg)
 		else
 			pkg->philos[0]->rfork = &pkg->philos[pkg->pc - 1]->lfork;
 		if (i % 2 == 0)
-			ft_usleep(pkg->t2eat / 100);
+			ft_usleep(pkg->t2eat / 10);
 		pthread_create(&pkg->philos[i]->id, 0, (void *) ft_loop, pkg->philos[i]);
 		pthread_detach(pkg->philos[i]->id);
 	}
