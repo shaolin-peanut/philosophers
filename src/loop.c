@@ -17,13 +17,16 @@ void	*ft_loop(t_philo *philo)
 	//printf("ms right now%d\n", return_time());
 //	while (!death_of_a_philosopher())
 //	{
-	pick_fork_up(&philo->lfork);
-	pick_fork_up(philo->rfork);
-	eat(philo, philo->pkg);
-	put_fork_down(&philo->lfork);
-	put_fork_down(philo->rfork);
-	go_sleep(philo, philo->pkg);
-	think(philo, philo->pkg);
+	while (1)
+	{
+		pick_fork_up(&philo->lfork, philo);
+		pick_fork_up(philo->rfork, philo);
+		eat(philo, philo->pkg);
+		put_fork_down(&philo->lfork, philo);
+		put_fork_down(philo->rfork, philo);
+		go_sleep(philo, philo->pkg);
+		think(philo, philo->pkg);
+	}
 		//sleep
 		//think
 //	}
@@ -32,6 +35,8 @@ void	*ft_loop(t_philo *philo)
 
 void	eat(t_philo	*philo, t_data *pkg)
 {
+	// if (dead())
+	//		die();
 	pthread_mutex_lock(&pkg->print_lock);
 	print_current_time();
 	ft_putnbr_fd(philo->number, 1);
@@ -42,6 +47,8 @@ void	eat(t_philo	*philo, t_data *pkg)
 
 void	go_sleep(t_philo *philo, t_data *pkg)
 {
+	// if (dead())
+	//		die();
 	pthread_mutex_lock(&pkg->print_lock);
 	print_current_time();
 	ft_putnbr_fd(philo->number, 1);
@@ -52,6 +59,8 @@ void	go_sleep(t_philo *philo, t_data *pkg)
 
 void	think(t_philo *philo, t_data *pkg)
 {
+	// if (dead())
+	//		die();
 	pthread_mutex_lock(&pkg->print_lock);
 	print_current_time();
 	ft_putnbr_fd(philo->number, 1);
@@ -59,12 +68,24 @@ void	think(t_philo *philo, t_data *pkg)
 	pthread_mutex_unlock(&pkg->print_lock);
 }
 
-void	pick_fork_up(pthread_mutex_t *m)
+void	pick_fork_up(pthread_mutex_t *m, t_philo *philo)
 {
+	// if (dead())
+	//		die();
 	pthread_mutex_lock(m);
+	pthread_mutex_lock(&philo->pkg->print_lock);
+	print_current_time();
+	ft_putnbr_fd(philo->number, 1);
+	ft_putstr(" has taken a fork\n");
+	pthread_mutex_unlock(&philo->pkg->print_lock);
 }
 
-void	put_fork_down(pthread_mutex_t *m)
+void	put_fork_down(pthread_mutex_t *m, t_philo *philo)
 {
 	pthread_mutex_unlock(m);
+	pthread_mutex_lock(&philo->pkg->print_lock);
+	print_current_time();
+	ft_putnbr_fd(philo->number, 1);
+	ft_putstr(" put a fork down\n");
+	pthread_mutex_unlock(&philo->pkg->print_lock);
 }

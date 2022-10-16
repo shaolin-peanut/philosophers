@@ -14,6 +14,7 @@ typedef	struct s_philo t_philo;
 struct s_philo
 {
 	pthread_t		id;
+	pthread_t		death_id;
 	int				number;
 	pthread_mutex_t	lfork;
 	pthread_mutex_t	*rfork;
@@ -35,8 +36,8 @@ typedef	struct s_data
 // loop.c
 void	*ft_loop(t_philo *philo);
 void	eat(t_philo	*philo, t_data *pkg);
-void	pick_fork_up(pthread_mutex_t	*m);
-void	put_fork_down(pthread_mutex_t	*m);
+void	pick_fork_up(pthread_mutex_t	*m, t_philo *philo);
+void	put_fork_down(pthread_mutex_t	*m, t_philo *philo);
 void	go_sleep(t_philo *philo, t_data *pkg);
 void	think(t_philo *philo, t_data *pkg);
 // parsing.c

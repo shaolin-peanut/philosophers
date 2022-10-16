@@ -77,7 +77,6 @@ void	create_philos(char	**argv, t_data	*pkg)
 		// What about the left fork of the first philosopher?
 		if (create_fork(&pkg->philos[i]->lfork) != 0)
 				errormsg("fork creation error\n", pkg);
-
 	}
 	i = -1;
 	// init philos right fork, then create and detach	
