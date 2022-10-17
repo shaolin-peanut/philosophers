@@ -46,6 +46,7 @@ void	fill_pkg(t_data *pkg, char	**argv)
 	pkg->t2die = ft_atoi(argv[2]);
 	pkg->t2eat = ft_atoi(argv[3]);
 	pkg->t2sleep = ft_atoi(argv[4]);
+//	pkg->start_time = return_time();
 	ret = pthread_mutex_init(&pkg->print_lock, NULL);
 	if (ret != 0)
 		errormsg("mutex init error", pkg);
@@ -72,6 +73,7 @@ void	create_philos(char	**argv, t_data	*pkg)
 	// init philos number, pkg and left fork
 	while (++i < pkg->pc && pkg->philos[i] != 0)
 	{
+
 		pkg->philos[i]->number = i + 1;
 		pkg->philos[i]->pkg = pkg;
 		// What about the left fork of the first philosopher?
@@ -79,16 +81,11 @@ void	create_philos(char	**argv, t_data	*pkg)
 				errormsg("fork creation error\n", pkg);
 	}
 	i = -1;
-	// init philos right fork, then create and detach	
 	while (++i < pkg->pc && pkg->philos[i] != 0)
 	{
 		if (i > 0)
 			pkg->philos[i]->rfork = &pkg->philos[i - 1]->lfork;
 		else
 			pkg->philos[0]->rfork = &pkg->philos[pkg->pc - 1]->lfork;
-		if (i % 2 == 0)
-			ft_usleep(pkg->t2eat / 10);
-		pthread_create(&pkg->philos[i]->id, 0, (void *) ft_loop, pkg->philos[i]);
-		pthread_detach(pkg->philos[i]->id);
 	}
 }

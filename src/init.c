@@ -21,6 +21,7 @@ t_data	*init_pkg(t_data	*pkg)
 	pkg->t2eat = 0;
 	pkg->t2sleep = 0;
 	pkg->eatXtimes = 0;
+	pkg->start_time = return_time();
 	pkg->philos = 0;
 	return (pkg);
 }
@@ -44,6 +45,7 @@ t_philo	**init_philos(t_philo	**philos, int nbr, t_data	*pkg)
 	{
 		philos[i]->id = 0;
 		philos[i]->number = 0;
+		philos[i]->last_meal = 0;
 		philos[i]->pkg = 0;
 	}
 	return (philos);

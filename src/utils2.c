@@ -26,9 +26,14 @@ long int	return_time(void)
 	return (ret);
 }
 
-int	death_of_a_philosopher(void)
+// Check if the range between now and last_meal is egal or superior to the
+// time_to_die given as first argument
+int	dead(t_philo *philo)
 {
-	return (0);
+	if ((return_time() - philo->last_meal) > philo->pkg->t2die)
+		return (1);
+	else
+		return (0);
 }
 
 void	ft_putstr(char	*str)

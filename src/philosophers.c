@@ -18,6 +18,7 @@ int	main(int argc, char	**argv)
 	pkg = NULL;
 	pkg = parsing(argc, argv);
 	create_philos(argv, pkg);
+	processing(pkg);
 	free_all(pkg);
 	return (0);
 }

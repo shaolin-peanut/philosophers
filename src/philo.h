@@ -18,6 +18,7 @@ struct s_philo
 	int				number;
 	pthread_mutex_t	lfork;
 	pthread_mutex_t	*rfork;
+	long int		last_meal;
 	struct s_data	*pkg;
 };
 
@@ -28,6 +29,7 @@ typedef	struct s_data
 	long int	t2eat;
 	long int	t2sleep;
 	long int	eatXtimes;
+	long int	start_time;
 	pthread_mutex_t print_lock;
 	t_philo	**philos;
 }	t_data;
@@ -63,5 +65,7 @@ void	ft_putchar_fd(char c, int fd);
 void	print_current_time(void);
 void	ft_usleep(long int time_in_ms);
 void	ft_putnbr_long(long int n);
+// processing.c
+int processing(t_data *pkg);
 
 #endif

@@ -17,10 +17,23 @@ void	*ft_loop(t_philo *philo)
 	//printf("ms right now%d\n", return_time());
 //	while (!death_of_a_philosopher())
 //	{
-	while (1)
+	pthread_mutex_lock(&philo->pkg->print_lock);
+	ft_putnbr_long(philo->pkg->start_time);
+	ft_putstr(" START\n");
+	pthread_mutex_unlock(&philo->pkg->print_lock);
+	int i = 2;
+	while (i-- > 0)
 	{
-		pick_fork_up(&philo->lfork, philo);
-		pick_fork_up(philo->rfork, philo);
+		//if (philo->number % 2 == 1)
+		//{
+			pick_fork_up(&philo->lfork, philo);
+			pick_fork_up(philo->rfork, philo);
+	//	}
+		//else if (philo->number % 2 == 0)
+	//	{
+			//pick_fork_up(philo->rfork, philo);
+			//pick_fork_up(&philo->lfork, philo);
+		//}
 		eat(philo, philo->pkg);
 		put_fork_down(&philo->lfork, philo);
 		put_fork_down(philo->rfork, philo);
@@ -73,6 +86,8 @@ void	pick_fork_up(pthread_mutex_t *m, t_philo *philo)
 	// if (dead())
 	//		die();
 	pthread_mutex_lock(m);
+	// above is the actual function's work, below is printing the message...
+	// should be abstracted.
 	pthread_mutex_lock(&philo->pkg->print_lock);
 	print_current_time();
 	ft_putnbr_fd(philo->number, 1);
@@ -82,10 +97,11 @@ void	pick_fork_up(pthread_mutex_t *m, t_philo *philo)
 
 void	put_fork_down(pthread_mutex_t *m, t_philo *philo)
 {
+	(void) philo;
 	pthread_mutex_unlock(m);
-	pthread_mutex_lock(&philo->pkg->print_lock);
+/*	pthread_mutex_lock(&philo->pkg->print_lock);
 	print_current_time();
 	ft_putnbr_fd(philo->number, 1);
 	ft_putstr(" put a fork down\n");
-	pthread_mutex_unlock(&philo->pkg->print_lock);
+	pthread_mutex_unlock(&philo->pkg->print_lock);*/
 }

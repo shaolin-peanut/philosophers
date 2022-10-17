@@ -38,7 +38,8 @@ SRCS			= init.c \
 				  utils.c \
 				  utils2.c \
 				  utils3.c \
-				  loop.c
+				  loop.c \
+				  threading.c
 
 MAIN			= philosophers.c
 
