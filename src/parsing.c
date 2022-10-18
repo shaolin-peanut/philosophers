@@ -24,7 +24,11 @@ t_data	*parsing(int	c, char	**av)
 	pkg = init_pkg(pkg);
 	fill_pkg(pkg, av);
 	if (c == 6)
+	{
 		pkg->eatXtimes = ft_atoi(av[c - 1]);
+		if (pkg->eatXtimes < 1)
+			errormsg("Incorrect Input\n", pkg);
+	}
 	// TESTING
 //	printf("%d\n", pkg->pc);
 //	printf("%d\n", pkg->t2die);
@@ -46,7 +50,8 @@ void	fill_pkg(t_data *pkg, char	**argv)
 	pkg->t2die = ft_atoi(argv[2]);
 	pkg->t2eat = ft_atoi(argv[3]);
 	pkg->t2sleep = ft_atoi(argv[4]);
-//	pkg->start_time = return_time();
+	if (pkg->pc < 1 || pkg->t2die < 1 || pkg->t2eat < 1 || pkg->t2sleep < 1)
+		errormsg("Incorrect Input\n", pkg);
 	ret = pthread_mutex_init(&pkg->print_lock, NULL);
 	if (ret != 0)
 		errormsg("mutex init error", pkg);

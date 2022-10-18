@@ -33,51 +33,33 @@ void	*routine(t_philo *philo)
 
 void	*ft_loop(t_philo *philo)
 {
-	// write(1, "hello\n", 6);
-	// printf("ms right now%d\n", return_time());
-	// while (!death_of_a_philosopher())
-	// {
-	// pthread_mutex_lock(&philo->pkg->print_lock);
-	// ft_putnbr_long(philo->pkg->start_time);
-	// ft_putstr(" START\n");
-	// pthread_mutex_unlock(&philo->pkg->print_lock);
 	while (!dead(philo))
 	{
 		pthread_create(&philo->death_id, NULL, (void *) death_monitor, philo);
 		routine(philo);
 		pthread_detach(philo->death_id);
+		// if (number of times philo ate == times philo must eat)
+			// note it somewhere... if all philos have now eaten enough, the simulation ends here
 	}
 	return (NULL);
 }
 
 void	eat(t_philo	*philo, t_data *pkg)
 {
-	// if (dead())
-	//		die();
-	pthread_mutex_lock(&pkg->print_lock);
-	print_current_time();
-	ft_putnbr_fd(philo->number, 1);
-	ft_putstr(" is eating\n");
-	pthread_mutex_unlock(&pkg->print_lock);
+	philo_says("is eating\n", philo);
+	philo->last_meal = return_time();
 	ft_usleep(pkg->t2eat);
 }
 
 void	go_sleep(t_philo *philo, t_data *pkg)
 {
-	// if (dead())
-	//		die();
-	pthread_mutex_lock(&pkg->print_lock);
-	print_current_time();
-	ft_putnbr_fd(philo->number, 1);
-	ft_putstr(" is sleeping\n");
-	pthread_mutex_unlock(&pkg->print_lock);
+	philo_says("is sleeping\n", philo);
 	ft_usleep(pkg->t2sleep);
 }
 
 void	think(t_philo *philo, t_data *pkg)
 {
-	// if (dead())
-	//		die();
+	philo_says("is thinking\n", philo);
 	pthread_mutex_lock(&pkg->print_lock);
 	print_current_time();
 	ft_putnbr_fd(philo->number, 1);
@@ -87,25 +69,12 @@ void	think(t_philo *philo, t_data *pkg)
 
 void	pick_fork_up(pthread_mutex_t *m, t_philo *philo)
 {
-	// if (dead())
-	//		die();
 	pthread_mutex_lock(m);
-	// above is the actual function's work, below is printing the message...
-	// should be abstracted.
-	pthread_mutex_lock(&philo->pkg->print_lock);
-	print_current_time();
-	ft_putnbr_fd(philo->number, 1);
-	ft_putstr(" has taken a fork\n");
-	pthread_mutex_unlock(&philo->pkg->print_lock);
+	philo_says("has taken a fork\n", philo);
 }
 
 void	put_fork_down(pthread_mutex_t *m, t_philo *philo)
 {
 	(void) philo;
 	pthread_mutex_unlock(m);
-/*	pthread_mutex_lock(&philo->pkg->print_lock);
-	print_current_time();
-	ft_putnbr_fd(philo->number, 1);
-	ft_putstr(" put a fork down\n");
-	pthread_mutex_unlock(&philo->pkg->print_lock);*/
 }

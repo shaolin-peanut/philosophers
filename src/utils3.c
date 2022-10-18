@@ -51,10 +51,15 @@ void	ft_putnbr_long(long int n)
 
 void	philo_says(char *str, t_philo *philo)
 {
+	long int time;
+
+	time = 0;
+	time = return_time() - philo->pkg->start_time;
 	pthread_mutex_lock(&philo->pkg->print_lock);
-	ft_putnbr_long(return_time());
+	ft_putnbr_long(time);
 	write(1, " ", 1);
 	ft_putnbr_long(philo->number);
+	write(1, " ", 1);
 	ft_putstr(str);
 	pthread_mutex_unlock(&philo->pkg->print_lock);
 }

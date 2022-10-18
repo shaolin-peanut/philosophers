@@ -45,7 +45,7 @@ t_philo	**init_philos(t_philo	**philos, int nbr, t_data	*pkg)
 	{
 		philos[i]->id = 0;
 		philos[i]->number = 0;
-		philos[i]->last_meal = 0;
+		philos[i]->last_meal = return_time();
 		philos[i]->pkg = 0;
 	}
 	return (philos);

@@ -28,7 +28,7 @@ typedef	struct s_data
 	long int	t2die;
 	long int	t2eat;
 	long int	t2sleep;
-	long int	eatXtimes;
+	int			eatXtimes;
 	long int	start_time;
 	pthread_mutex_t print_lock;
 	t_philo	**philos;
