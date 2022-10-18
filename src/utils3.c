@@ -48,3 +48,13 @@ void	ft_putnbr_long(long int n)
 		ft_putchar_fd(num + 48, 1);
 	}
 }
+
+void	philo_says(char *str, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->pkg->print_lock);
+	ft_putnbr_long(return_time());
+	write(1, " ", 1);
+	ft_putnbr_long(philo->number);
+	ft_putstr(str);
+	pthread_mutex_unlock(&philo->pkg->print_lock);
+}

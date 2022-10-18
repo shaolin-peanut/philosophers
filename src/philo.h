@@ -57,7 +57,7 @@ long int ft_atoi(const char *str);
 int		ft_isdigit(int c);
 // utils2.c
 long int	return_time(void);
-int		death_of_a_philosopher(void);
+int		dead(t_philo *philo);
 void	ft_putstr(char	*str);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
@@ -65,7 +65,9 @@ void	ft_putchar_fd(char c, int fd);
 void	print_current_time(void);
 void	ft_usleep(long int time_in_ms);
 void	ft_putnbr_long(long int n);
+void	philo_says(char *str, t_philo *philo);
 // processing.c
 int processing(t_data *pkg);
+int	death_monitor(t_philo *philo);
 
 #endif

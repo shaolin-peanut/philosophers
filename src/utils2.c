@@ -30,7 +30,7 @@ long int	return_time(void)
 // time_to_die given as first argument
 int	dead(t_philo *philo)
 {
-	if ((return_time() - philo->last_meal) > philo->pkg->t2die)
+	if ((return_time() - philo->last_meal) < philo->pkg->t2die)
 		return (1);
 	else
 		return (0);

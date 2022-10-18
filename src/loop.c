@@ -11,38 +11,42 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+void	*routine(t_philo *philo)
+{
+	if (philo->number % 2 == 1)
+	{
+		pick_fork_up(&philo->lfork, philo);
+		pick_fork_up(philo->rfork, philo);
+	}
+	else if (philo->number % 2 == 0)
+	{
+		pick_fork_up(philo->rfork, philo);
+		pick_fork_up(&philo->lfork, philo);
+	}
+	eat(philo, philo->pkg);
+	put_fork_down(&philo->lfork, philo);
+	put_fork_down(philo->rfork, philo);
+	go_sleep(philo, philo->pkg);
+	think(philo, philo->pkg);
+	return (NULL);
+}
+
 void	*ft_loop(t_philo *philo)
 {
-	//write(1, "hello\n", 6);
-	//printf("ms right now%d\n", return_time());
-//	while (!death_of_a_philosopher())
-//	{
-	pthread_mutex_lock(&philo->pkg->print_lock);
-	ft_putnbr_long(philo->pkg->start_time);
-	ft_putstr(" START\n");
-	pthread_mutex_unlock(&philo->pkg->print_lock);
-	int i = 2;
-	while (i-- > 0)
+	// write(1, "hello\n", 6);
+	// printf("ms right now%d\n", return_time());
+	// while (!death_of_a_philosopher())
+	// {
+	// pthread_mutex_lock(&philo->pkg->print_lock);
+	// ft_putnbr_long(philo->pkg->start_time);
+	// ft_putstr(" START\n");
+	// pthread_mutex_unlock(&philo->pkg->print_lock);
+	while (!dead(philo))
 	{
-		//if (philo->number % 2 == 1)
-		//{
-			pick_fork_up(&philo->lfork, philo);
-			pick_fork_up(philo->rfork, philo);
-	//	}
-		//else if (philo->number % 2 == 0)
-	//	{
-			//pick_fork_up(philo->rfork, philo);
-			//pick_fork_up(&philo->lfork, philo);
-		//}
-		eat(philo, philo->pkg);
-		put_fork_down(&philo->lfork, philo);
-		put_fork_down(philo->rfork, philo);
-		go_sleep(philo, philo->pkg);
-		think(philo, philo->pkg);
+		pthread_create(&philo->death_id, NULL, (void *) death_monitor, philo);
+		routine(philo);
+		pthread_detach(philo->death_id);
 	}
-		//sleep
-		//think
-//	}
 	return (NULL);
 }
 
