@@ -14,7 +14,6 @@ typedef	struct s_philo t_philo;
 struct s_philo
 {
 	pthread_t		id;
-	pthread_t		death_id;
 	int				number;
 	pthread_mutex_t	lfork;
 	pthread_mutex_t	*rfork;
@@ -30,6 +29,7 @@ typedef	struct s_data
 	long int	t2sleep;
 	int			eatXtimes;
 	long int	start_time;
+	int			someone_died;
 	pthread_mutex_t print_lock;
 	t_philo	**philos;
 }	t_data;
@@ -44,7 +44,7 @@ void	go_sleep(t_philo *philo, t_data *pkg);
 void	think(t_philo *philo, t_data *pkg);
 // parsing.c
 t_data	*parsing(int argc, char	**argv);
-void	create_philos(char	**argv, t_data	*pkg);
+void	create_philos(t_data	*pkg);
 int		create_fork(pthread_mutex_t *lock);
 // init.c
 t_data	*init_pkg(t_data *pkg);
@@ -68,7 +68,7 @@ void	ft_putnbr_long(long int n);
 void	philo_says(char *str, t_philo *philo);
 // threading.c
 int processing(t_data *pkg);
-int	death_monitor(t_philo *philo);
-void	die(t_philo *philo);
+int	death_monitor(t_data *pkg);
+void	finish_program(t_data *pkg);
 
 #endif

@@ -17,8 +17,11 @@ int	main(int argc, char	**argv)
 
 	pkg = NULL;
 	pkg = parsing(argc, argv);
-	create_philos(argv, pkg);
+	create_philos(pkg);
 	processing(pkg);
-	free_all(pkg);
+	if (pkg->someone_died == 1)
+	{
+		free_all(pkg);	
+	}
 	return (0);
 }

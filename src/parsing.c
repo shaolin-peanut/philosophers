@@ -39,7 +39,7 @@ t_data	*parsing(int	c, char	**av)
 }
 
 
-void	fill_pkg(t_data *pkg, char	**argv)
+void	fill_pkg(t_data *pkg, char **argv)
 {
 	t_philo	**philos;
 	int		ret;
@@ -69,12 +69,11 @@ int	create_fork(pthread_mutex_t	*lock)
 	return (ret);
 }
 
-void	create_philos(char	**argv, t_data	*pkg)
+void	create_philos(t_data	*pkg)
 {
 	int i;
 
 	i = -1;
-	(void) argv;
 	// init philos number, pkg and left fork
 	while (++i < pkg->pc && pkg->philos[i] != 0)
 	{

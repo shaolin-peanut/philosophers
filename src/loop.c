@@ -13,6 +13,8 @@
 
 void	*routine(t_philo *philo)
 {
+	if (philo->pkg->someone_died)
+		return (0);
 	if (philo->number % 2 == 0)
 	{
 		pick_fork_up(&philo->lfork, philo);
@@ -24,8 +26,8 @@ void	*routine(t_philo *philo)
 		pick_fork_up(&philo->lfork, philo);
 	}
 	eat(philo, philo->pkg);
-	put_fork_down(&philo->lfork, philo);
-	put_fork_down(philo->rfork, philo);
+	pthread_mutex_unlock(&philo->lfork);
+	pthread_mutex_unlock(philo->rfork);
 	go_sleep(philo, philo->pkg);
 	think(philo, philo->pkg);
 	return (NULL);
@@ -33,21 +35,27 @@ void	*routine(t_philo *philo)
 
 void	*ft_loop(t_philo *philo)
 {
+	if (philo->pkg->someone_died)
+		return (0);
 	while (!dead(philo))
 	{
-		pthread_create(&philo->death_id, NULL, (void *) death_monitor, philo);
 		routine(philo);
-		pthread_detach(philo->death_id);
 		// if (number of times philo ate == times philo must eat)
 			// note it somewhere... if all philos have now eaten enough, the simulation ends here
 	}
+	if (philo->pkg->someone_died)
+		return (0);
 	return (NULL);
 }
 
 void	eat(t_philo	*philo, t_data *pkg)
 {
 	if (dead(philo))
-		die(philo);
+	{
+		philo_says("died.\n", philo);
+		pkg->someone_died = 1;
+		return ;
+	}
 	philo_says("is eating\n", philo);
 	philo->last_meal = return_time();
 	ft_usleep(pkg->t2eat);
@@ -56,31 +64,34 @@ void	eat(t_philo	*philo, t_data *pkg)
 void	go_sleep(t_philo *philo, t_data *pkg)
 {
 	if (dead(philo))
-		die(philo);
+	{
+		philo_says("died.\n", philo);
+		pkg->someone_died = 1;
+		return ;
+	}
 	philo_says("is sleeping\n", philo);
 	ft_usleep(pkg->t2sleep);
 }
 
 void	think(t_philo *philo, t_data *pkg)
 {
-	(void) pkg;
 	if (dead(philo))
-		die(philo);
+	{
+		philo_says("died.\n", philo);
+		pkg->someone_died = 1;
+		return ;
+	}
 	philo_says("is thinking\n", philo);
 }
 
 void	pick_fork_up(pthread_mutex_t *m, t_philo *philo)
 {
 	if (dead(philo))
-		die(philo);
+	{
+		philo_says("died.\n", philo);
+		philo->pkg->someone_died = 1;
+		return ;
+	}
 	pthread_mutex_lock(m);
 	philo_says("has taken a fork\n", philo);
-}
-
-void	put_fork_down(pthread_mutex_t *m, t_philo *philo)
-{	
-	if (dead(philo))
-		die(philo);
-	(void) philo;
-	pthread_mutex_unlock(m);
 }

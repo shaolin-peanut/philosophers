@@ -22,6 +22,7 @@ t_data	*init_pkg(t_data	*pkg)
 	pkg->t2sleep = 0;
 	pkg->eatXtimes = 0;
 	pkg->start_time = return_time();
+	pkg->someone_died = 0;
 	pkg->philos = 0;
 	return (pkg);
 }
