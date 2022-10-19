@@ -66,8 +66,9 @@ void	print_current_time(void);
 void	ft_usleep(long int time_in_ms);
 void	ft_putnbr_long(long int n);
 void	philo_says(char *str, t_philo *philo);
-// processing.c
+// threading.c
 int processing(t_data *pkg);
 int	death_monitor(t_philo *philo);
+void	die(t_philo *philo);
 
 #endif

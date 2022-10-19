@@ -13,12 +13,12 @@
 
 void	*routine(t_philo *philo)
 {
-	if (philo->number % 2 == 1)
+	if (philo->number % 2 == 0)
 	{
 		pick_fork_up(&philo->lfork, philo);
 		pick_fork_up(philo->rfork, philo);
 	}
-	else if (philo->number % 2 == 0)
+	else if (philo->number % 2 == 1)
 	{
 		pick_fork_up(philo->rfork, philo);
 		pick_fork_up(&philo->lfork, philo);
@@ -46,6 +46,8 @@ void	*ft_loop(t_philo *philo)
 
 void	eat(t_philo	*philo, t_data *pkg)
 {
+	if (dead(philo))
+		die(philo);
 	philo_says("is eating\n", philo);
 	philo->last_meal = return_time();
 	ft_usleep(pkg->t2eat);
@@ -53,28 +55,32 @@ void	eat(t_philo	*philo, t_data *pkg)
 
 void	go_sleep(t_philo *philo, t_data *pkg)
 {
+	if (dead(philo))
+		die(philo);
 	philo_says("is sleeping\n", philo);
 	ft_usleep(pkg->t2sleep);
 }
 
 void	think(t_philo *philo, t_data *pkg)
 {
+	(void) pkg;
+	if (dead(philo))
+		die(philo);
 	philo_says("is thinking\n", philo);
-	pthread_mutex_lock(&pkg->print_lock);
-	print_current_time();
-	ft_putnbr_fd(philo->number, 1);
-	ft_putstr(" is thinking\n");
-	pthread_mutex_unlock(&pkg->print_lock);
 }
 
 void	pick_fork_up(pthread_mutex_t *m, t_philo *philo)
 {
+	if (dead(philo))
+		die(philo);
 	pthread_mutex_lock(m);
 	philo_says("has taken a fork\n", philo);
 }
 
 void	put_fork_down(pthread_mutex_t *m, t_philo *philo)
-{
+{	
+	if (dead(philo))
+		die(philo);
 	(void) philo;
 	pthread_mutex_unlock(m);
 }
