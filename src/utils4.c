@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
+/*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/10 12:39:39 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/24 16:40:18 by sbars            ###   ########.fr       */
+/*   Created: 2022/10/21 18:39:02 by sbars             #+#    #+#             */
+/*   Updated: 2022/10/21 19:02:57 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
-int	main(int argc, char	**argv)
+int all_philos_ate_enough(t_data *pkg)
 {
-	t_data	*pkg;
+    int i;
 
-	pkg = NULL;
-	pkg = parsing(argc, argv);
-	create_philos(pkg);
-	processing(pkg);
-	if (pkg->someone_died == 1)
-	{
-		free_all(pkg);	
-		return (0);
-	}
-	return (0);
+    i = -1;
+    while (++i < pkg->pc && pkg->philos[i])
+    {
+        if (pkg->philos[i]->meal_count != pkg->meals_before_end)
+            return (0);
+    }
+    return (1);
 }

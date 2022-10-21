@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
+/*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:37:27 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/24 16:46:56 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/21 19:26:52 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
 void	free_philos(t_data	*pkg)
@@ -18,6 +19,8 @@ void	free_philos(t_data	*pkg)
 	i = -1;
 	while (pkg->philos[++i] && i < pkg->pc)
 	{
+		pthread_mutex_unlock(&pkg->philos[i]->lfork);
+		pthread_mutex_destroy(&pkg->philos[i]->lfork);
 		pthread_exit(&pkg->philos[i]->id);
 		free(pkg->philos[i]);
 	}
@@ -25,13 +28,9 @@ void	free_philos(t_data	*pkg)
 
 void	free_all(t_data	*pkg)
 {
-	/*int	i = -1;
-	while (++i < pkg->pc)
-	{
-		printf("philos[%d]->nbr: %d\n", i, pkg->philos[i]->number);
-	}*/
-	if (pkg->philos)
-		free_philos(pkg);
+	free_philos(pkg);
+	pthread_mutex_unlock(&pkg->print_lock);
+	pthread_mutex_destroy(&pkg->print_lock);
 	if (pkg)
 		free(pkg);
 }
@@ -57,7 +56,7 @@ int	ft_isdigit(int c)
 long int	ft_atoi(const char *str)
 {
 	long int			result;
-	int			i;
+	int					i;
 	long int			sign;
 
 	result = 0;

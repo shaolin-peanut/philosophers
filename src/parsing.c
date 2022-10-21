@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
+/*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:46:31 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/26 16:17:20 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/21 17:25:13 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
-t_data	*parsing(int	c, char	**av)
+t_data	*parsing(int c, char	**av)
 {
 	t_data	*pkg;
 
@@ -25,19 +26,12 @@ t_data	*parsing(int	c, char	**av)
 	fill_pkg(pkg, av);
 	if (c == 6)
 	{
-		pkg->eatXtimes = ft_atoi(av[c - 1]);
-		if (pkg->eatXtimes < 1)
+		pkg->meals_before_end = ft_atoi(av[c - 1]);
+		if (pkg->meals_before_end < 1)
 			errormsg("Incorrect Input\n", pkg);
 	}
-	// TESTING
-//	printf("%d\n", pkg->pc);
-//	printf("%d\n", pkg->t2die);
-//	printf("%d\n", pkg->t2eat);
-//	printf("%d\n", pkg->t2sleep);
-//	printf("%d\n", pkg->eatXtimes);
 	return (pkg);
 }
-
 
 void	fill_pkg(t_data *pkg, char **argv)
 {
@@ -71,13 +65,12 @@ int	create_fork(pthread_mutex_t	*lock)
 
 void	create_philos(t_data	*pkg)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	// init philos number, pkg and left fork
 	while (++i < pkg->pc && pkg->philos[i] != 0)
 	{
-
 		pkg->philos[i]->number = i + 1;
 		pkg->philos[i]->pkg = pkg;
 		// What about the left fork of the first philosopher?

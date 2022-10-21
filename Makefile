@@ -6,7 +6,7 @@
 #    By: tmatis <tmatis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2022/10/13 16:04:32 by sbars            ###   ########.fr        #
+#    Updated: 2022/10/21 18:39:24 by sbars            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS			= init.c \
 				  utils.c \
 				  utils2.c \
 				  utils3.c \
+				  utils4.c \
 				  loop.c \
 				  threading.c
 

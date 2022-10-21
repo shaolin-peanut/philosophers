@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbars <marvin@42lausanne.ch>               +#+  +:+       +#+        */
+/*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 16:01:42 by sbars             #+#    #+#             */
-/*   Updated: 2022/08/26 16:19:24 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/21 19:29:18 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
 void	print_current_time(void)
@@ -51,15 +52,47 @@ void	ft_putnbr_long(long int n)
 
 void	philo_says(char *str, t_philo *philo)
 {
-	long int time;
+	long int	time;
 
 	time = 0;
 	time = return_time() - philo->pkg->start_time;
+	check_aliveness_announce_and_exit(philo);
 	pthread_mutex_lock(&philo->pkg->print_lock);
+	if (philo->pkg->someone_died > 0)
+	{
+		pthread_mutex_unlock(&philo->pkg->print_lock);
+		pthread_exit(NULL);
+	}
 	ft_putnbr_long(time);
 	write(1, " ", 1);
 	ft_putnbr_long(philo->number);
 	write(1, " ", 1);
 	ft_putstr(str);
 	pthread_mutex_unlock(&philo->pkg->print_lock);
+	check_aliveness_announce_and_exit(philo);
+}
+
+int	announce_death(t_philo *philo)
+{
+	long int	time;
+
+	time = 0;
+	time = return_time() - philo->pkg->start_time;
+	if (philo->pkg->someone_died > 1)
+		pthread_exit(0);
+	//{
+		//pthread_mutex_unlock(&philo->lfork);
+		//pthread_mutex_destroy(&philo->lfork);
+	//}
+	pthread_mutex_lock(&philo->pkg->print_lock);
+	ft_putnbr_long(time);
+	write(1, " ", 1);
+	ft_putnbr_long(philo->number);
+	write(1, " ", 1);
+	ft_putstr("died.\n");
+	//pthread_mutex_unlock(&philo->pkg->print_lock);
+	//pthread_mutex_destroy(&philo->pkg->print_lock);
+	//free_all(philo->pkg);
+	pthread_exit(0);
+	return (0);
 }
