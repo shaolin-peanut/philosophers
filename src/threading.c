@@ -66,13 +66,15 @@ int	check_aliveness_announce_and_exit(t_philo *philo)
 
 void	*routine(t_philo *philo)
 {
-	if (philo->number % 2 == 0)
+	//if (philo->number % 2 == 0)
+	if (philo->number == 1)
 	{
 		pick_fork_up(&philo->lfork, philo);
 		check_aliveness_announce_and_exit(philo);
 		pick_fork_up(philo->rfork, philo);
 	}
-	else if (philo->number % 2 == 1)
+	//else if (philo->number % 2 == 1)
+	else
 	{
 		pick_fork_up(philo->rfork, philo);
 		check_aliveness_announce_and_exit(philo);
