@@ -6,7 +6,7 @@
 /*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 17:24:33 by sbars             #+#    #+#             */
-/*   Updated: 2022/10/23 17:34:00 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/23 17:45:28 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ int	processing(t_data *pkg)
 
 int	death_monitor(t_philo *philo)
 {
-	(void) philo;
 	while (1)
 	{
 		check_aliveness_announce_and_exit(philo);
-		ft_usleep(3);
+		ft_usleep(2);
 	}
 	return (0);
 }
