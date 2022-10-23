@@ -78,21 +78,23 @@ int	announce_death(t_philo *philo)
 
 	time = 0;
 	time = return_time() - philo->pkg->start_time;
-	if (philo->pkg->someone_died > 1)
+	if (philo->pkg->someone_died > 0)
 		pthread_exit(0);
-	//{
-		//pthread_mutex_unlock(&philo->lfork);
-		//pthread_mutex_destroy(&philo->lfork);
-	//}
+	philo->pkg->someone_died = 1;
+	if (pthread_mutex_unlock(&philo->lfork) != 0)
+		ft_putstr("unlock error\n");
+	if (pthread_mutex_unlock(philo->rfork) != 0)
+		ft_putstr("unlock error\n");
+	pthread_mutex_destroy(&philo->lfork);
+	pthread_mutex_destroy(philo->rfork);
 	pthread_mutex_lock(&philo->pkg->print_lock);
 	ft_putnbr_long(time);
 	write(1, " ", 1);
 	ft_putnbr_long(philo->number);
 	write(1, " ", 1);
 	ft_putstr("died.\n");
-	//pthread_mutex_unlock(&philo->pkg->print_lock);
-	//pthread_mutex_destroy(&philo->pkg->print_lock);
-	//free_all(philo->pkg);
+	pthread_mutex_unlock(&philo->pkg->print_lock);	
+	// free_all(philo->pkg);
 	pthread_exit(0);
 	return (0);
 }

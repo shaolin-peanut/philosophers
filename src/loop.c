@@ -35,6 +35,7 @@ void	eat(t_philo	*philo, t_data *pkg)
 	check_aliveness_announce_and_exit(philo);
 	philo_says("is eating\n", philo);
 	philo->last_meal = return_time();
+	philo->meal_count++;
 	ft_usleep(pkg->t2eat);
 }
 

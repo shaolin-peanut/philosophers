@@ -28,8 +28,8 @@ int	processing(t_data *pkg)
 	i = -1;
 	while (++i < pkg->pc && pkg->philos[i] != 0 && !pkg->someone_died)
 	{
-		// if (pkg->someone_died > 1)
-		// 	free_all(pkg);
+		if (pkg->someone_died)
+			free_all(pkg);
 		pthread_join(pkg->philos[i]->id, NULL);
 	}
 	free_all(pkg);
@@ -39,31 +39,20 @@ int	processing(t_data *pkg)
 int	death_monitor(t_philo *philo)
 {
 	(void) philo;
-// {
-//   while (!dead(philo))
-//   {
-//     ft_usleep(philo->pkg->t2die + 1);
-//     if (dead(philo))
-//       return (announce_death(philo));
-//   }
-	// while (!dead(philo))
-	// {
-	//   if (philo->pkg->someone_died == 1)
-	//     finish_program(philo->pkg);
-	//   ft_usleep(10);
-	// }
 	while (1)
 	{
 		check_aliveness_announce_and_exit(philo);
-		ft_usleep(2);
+		ft_usleep(3);
 	}
 	return (0);
 }
 
 int	check_aliveness_announce_and_exit(t_philo *philo)
 {
-	if (philo->pkg->someone_died > 1)
+	if (philo->pkg->someone_died != 0/* || all_philos_ate_enough(philo->pkg)*/)
 	{
+		pthread_mutex_unlock(&philo->lfork);
+		pthread_mutex_unlock(philo->rfork);
 		pthread_exit(NULL);
 	}
 	else if (dead(philo))
@@ -77,25 +66,17 @@ int	check_aliveness_announce_and_exit(t_philo *philo)
 
 void	*routine(t_philo *philo)
 {
-	// check_aliveness_announce_and_exit(philo);
-	if (philo->pkg->pc == 1)
-	{
-		pick_fork_up(&philo->lfork, philo);
-		ft_usleep(philo->pkg->t2die);
-		announce_death(philo);
-		pthread_exit(NULL);
-	}
 	if (philo->number % 2 == 0)
 	{
 		pick_fork_up(&philo->lfork, philo);
+		check_aliveness_announce_and_exit(philo);
 		pick_fork_up(philo->rfork, philo);
-		// check_aliveness_announce_and_exit(philo);
 	}
 	else if (philo->number % 2 == 1)
 	{
 		pick_fork_up(philo->rfork, philo);
+		check_aliveness_announce_and_exit(philo);
 		pick_fork_up(&philo->lfork, philo);
-		// check_aliveness_announce_and_exit(philo);
 	}
 	// check_aliveness_announce_and_exit(philo);
 	eat(philo, philo->pkg);

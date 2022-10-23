@@ -28,6 +28,7 @@ void	free_philos(t_data	*pkg)
 
 void	free_all(t_data	*pkg)
 {
+	pkg->someone_died = 1;
 	free_philos(pkg);
 	pthread_mutex_unlock(&pkg->print_lock);
 	pthread_mutex_destroy(&pkg->print_lock);
