@@ -6,7 +6,7 @@
 /*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 13:27:40 by sbars             #+#    #+#             */
-/*   Updated: 2022/10/21 19:22:13 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/23 16:58:38 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ void	*ft_loop(t_philo *philo)
 	{
 		check_aliveness_announce_and_exit(philo);
 		routine(philo);
-		//if (all_philos_ate_enough(philo->pkg))
-		//{
-		//	free_all(philo->pkg);
-		//	pthread_exit(0);
-		//}
 	}
 	if (philo->pkg->someone_died > 0)
 		pthread_exit(NULL);
@@ -35,7 +30,7 @@ void	eat(t_philo	*philo, t_data *pkg)
 	check_aliveness_announce_and_exit(philo);
 	philo_says("is eating\n", philo);
 	philo->last_meal = return_time();
-	philo->meal_count++;
+	philo->meal_count = philo->meal_count + 1;
 	ft_usleep(pkg->t2eat);
 }
 

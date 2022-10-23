@@ -6,7 +6,7 @@
 /*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 17:24:33 by sbars             #+#    #+#             */
-/*   Updated: 2022/10/21 19:28:31 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/23 17:34:00 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 int	processing(t_data *pkg)
 {
-	int	i;
+	int		i;
+	t_philo	**ph;
 
+	ph = pkg->philos;
 	i = -1;
 	while (++i < pkg->pc && pkg->philos[i] != 0 && !pkg->someone_died)
 	{
 		if (i % 2 == 0)
-			ft_usleep(pkg->t2eat / 10);
-		pthread_create(&pkg->philos[i]->id, 0, (void *) ft_loop, pkg->philos[i]);
-		pthread_create(&pkg->philos[i]->death_monitor, 0, (void *) death_monitor, pkg->philos[i]);
-		pthread_detach(pkg->philos[i]->death_monitor);
+			ft_usleep(5);
+		pthread_create(&ph[i]->id, 0, (void *) ft_loop, ph[i]);
+		pthread_create(&ph[i]->death_monitor, 0, (void *) death_monitor, ph[i]);
+		pthread_detach(ph[i]->death_monitor);
 	}
 	i = -1;
 	while (++i < pkg->pc && pkg->philos[i] != 0 && !pkg->someone_died)
@@ -49,7 +51,7 @@ int	death_monitor(t_philo *philo)
 
 int	check_aliveness_announce_and_exit(t_philo *philo)
 {
-	if (philo->pkg->someone_died != 0/* || all_philos_ate_enough(philo->pkg)*/)
+	if (philo->pkg->someone_died || all_philos_ate_enough(philo->pkg) == 1)
 	{
 		pthread_mutex_unlock(&philo->lfork);
 		pthread_mutex_unlock(philo->rfork);
@@ -66,27 +68,23 @@ int	check_aliveness_announce_and_exit(t_philo *philo)
 
 void	*routine(t_philo *philo)
 {
-	//if (philo->number % 2 == 0)
-	if (philo->number == 1)
+	if (philo->number == 1 || philo->number % 2 == 0)
 	{
 		pick_fork_up(&philo->lfork, philo);
 		check_aliveness_announce_and_exit(philo);
 		pick_fork_up(philo->rfork, philo);
 	}
-	//else if (philo->number % 2 == 1)
-	else
+	else if (philo->number % 2 == 1)
 	{
 		pick_fork_up(philo->rfork, philo);
 		check_aliveness_announce_and_exit(philo);
 		pick_fork_up(&philo->lfork, philo);
 	}
-	// check_aliveness_announce_and_exit(philo);
+	check_aliveness_announce_and_exit(philo);
 	eat(philo, philo->pkg);
 	pthread_mutex_unlock(&philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
-	// check_aliveness_announce_and_exit(philo);
 	go_sleep(philo, philo->pkg);
-	// check_aliveness_announce_and_exit(philo);
 	think(philo, philo->pkg);
 	return (NULL);
 }

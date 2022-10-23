@@ -6,7 +6,7 @@
 /*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:46:31 by sbars             #+#    #+#             */
-/*   Updated: 2022/10/21 17:25:13 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/23 17:24:25 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,12 @@ void	create_philos(t_data	*pkg)
 	int	i;
 
 	i = -1;
-	// init philos number, pkg and left fork
 	while (++i < pkg->pc && pkg->philos[i] != 0)
 	{
 		pkg->philos[i]->number = i + 1;
 		pkg->philos[i]->pkg = pkg;
-		// What about the left fork of the first philosopher?
 		if (create_fork(&pkg->philos[i]->lfork) != 0)
-				errormsg("fork creation error\n", pkg);
+			errormsg("fork creation error\n", pkg);
 	}
 	i = -1;
 	while (++i < pkg->pc && pkg->philos[i] != 0)

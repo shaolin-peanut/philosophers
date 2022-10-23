@@ -6,7 +6,7 @@
 /*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:37:27 by sbars             #+#    #+#             */
-/*   Updated: 2022/10/21 19:26:52 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/23 17:24:01 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ void	errormsg(char *msg, t_data	*pkg)
 	i = -1;
 	while (msg[++i])
 		write(2, &msg[i], 1);
-	free_all(pkg);
+	//if (pkg->philos)
+	//	free_philos(pkg);
+	if (pkg)
+		free(pkg);
+	//pthread_mutex_unlock(&pkg->print_lock);
+	//pthread_mutex_destroy(&pkg->print_lock);
 	exit(EXIT_FAILURE);
 }
 

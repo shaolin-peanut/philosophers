@@ -6,7 +6,7 @@
 /*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 16:01:42 by sbars             #+#    #+#             */
-/*   Updated: 2022/10/21 19:29:18 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/23 16:28:00 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,8 @@ int	announce_death(t_philo *philo)
 	write(1, " ", 1);
 	ft_putnbr_long(philo->number);
 	write(1, " ", 1);
-	ft_putstr("died.\n");
-	pthread_mutex_unlock(&philo->pkg->print_lock);	
-	// free_all(philo->pkg);
+	ft_putstr("died\n");
+	pthread_mutex_unlock(&philo->pkg->print_lock);
 	pthread_exit(0);
 	return (0);
 }

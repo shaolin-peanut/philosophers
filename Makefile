@@ -6,7 +6,7 @@
 #    By: tmatis <tmatis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2022/10/21 18:39:24 by sbars            ###   ########.fr        #
+#    Updated: 2022/10/23 17:18:42 by sbars            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -230,7 +230,7 @@ endif
 -include $(DEPS) $(DEPS_MAIN)
 $(NAME):	${OBJS} ${OBJ_MAIN}
 			@$(call display_progress_bar)
-			@$(call run_and_test,$(CC) $(CFLAGS) $(DFLAGS) -I$(INCLUDE_PATH) -o $@ ${OBJS} ${OBJ_MAIN})
+			@$(call run_and_test,$(CC) $(CFLAGS) $(DFLAGS) -I$(INCLUDE_PATH) -fsanitize=address -o $@ ${OBJS} ${OBJ_MAIN})
 
 setup:
 	@$(call save_files_changed)

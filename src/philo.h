@@ -6,7 +6,7 @@
 /*   By: sbars <sbars@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:57:53 by sbars             #+#    #+#             */
-/*   Updated: 2022/10/21 19:12:36 by sbars            ###   ########.fr       */
+/*   Updated: 2022/10/23 16:29:25 by sbars            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // REMOVE AFTER TESTING
 # include <stdio.h>
 
-typedef struct	s_philo t_philo;
+typedef struct s_philo	t_philo;
 
 struct s_philo
 {
@@ -35,7 +35,7 @@ struct s_philo
 	struct s_data	*pkg;
 };
 
-typedef struct s_data	
+typedef struct s_data
 {
 	int				pc;
 	long int		t2die;
